@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useMemo, useState } from "react";
 import {
   Bath,
   CalendarCheck,
@@ -25,6 +25,15 @@ import {
 
 export default function Home() {
   const [submitted, setSubmitted] = useState(false);
+
+  const defaultArrivalTime = useMemo(() => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+
+    return `${yyyy}-${mm}-${dd}T09:30`;
+  }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -310,6 +319,13 @@ export default function Home() {
                   <option>皮毛 SPA</option>
                   <option>局部护理</option>
                 </select>
+                <input
+                  type="datetime-local"
+                  name="arrivalTime"
+                  aria-label="期望到店时间"
+                  defaultValue={defaultArrivalTime}
+                  required
+                />
                 <button className="btn primary" type="submit">{submitted ? <Check /> : <Send />}{submitted ? "已收到" : "提交预约"}</button>
               </form>
             </div>
