@@ -298,6 +298,47 @@
       font-size: 14px;
     }
 
+    .booking-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .booking-meta span,
+    .booking-time-field {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--ink);
+      background: #f7fbf8;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .booking-meta i,
+    .booking-time-field i {
+      width: 16px;
+      height: 16px;
+      color: var(--jade);
+    }
+
+    .booking-time-field select {
+      width: auto;
+      min-width: 68px;
+      border: 0;
+      padding: 0 18px 0 0;
+      color: var(--ink);
+      background: transparent;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      outline: none;
+    }
+
     .section-head {
       display: grid;
       grid-template-columns: minmax(0, .9fr) minmax(280px, .7fr);
@@ -646,7 +687,7 @@
 
     .form {
       display: grid;
-      grid-template-columns: 1fr 1fr auto;
+      grid-template-columns: 1fr 1fr 1fr auto;
       gap: 10px;
     }
 
@@ -833,6 +874,17 @@
             <i data-lucide="clock"></i>
             <strong>今日可约 4 个时段</strong>
             <p>小型犬基础精洗约 70 分钟，大型犬与造型服务会提前电话确认时间。</p>
+            <div class="booking-meta" aria-label="预约到店信息">
+              <label class="booking-time-field" for="arrival-time"><i data-lucide="calendar-clock"></i>预计到店
+                <select id="arrival-time" name="arrivalTime" aria-label="选择预计到店时间">
+                  <option>10:30</option>
+                  <option>13:00</option>
+                  <option selected>14:30</option>
+                  <option>18:00</option>
+                </select>
+              </label>
+              <span><i data-lucide="timer"></i>建议提前 10 分钟</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1050,6 +1102,13 @@
             <option>皮毛 SPA</option>
             <option>局部护理</option>
           </select>
+          <select id="form-arrival-time" name="arrivalTime" aria-label="到店时间" required>
+            <option value="">选择到店时间</option>
+            <option>10:30</option>
+            <option>13:00</option>
+            <option>14:30</option>
+            <option>18:00</option>
+          </select>
           <button class="btn primary" type="submit"><i data-lucide="send"></i>提交预约</button>
         </form>
       </div>
@@ -1092,6 +1151,20 @@
         button.innerHTML = '<i data-lucide="check"></i>已收到';
         if (window.lucide) {
           lucide.createIcons();
+        }
+      });
+    }
+
+    const arrivalTime = document.querySelector("#arrival-time");
+    const formArrivalTime = document.querySelector("#form-arrival-time");
+    if (arrivalTime && formArrivalTime) {
+      formArrivalTime.value = arrivalTime.value;
+      arrivalTime.addEventListener("change", () => {
+        formArrivalTime.value = arrivalTime.value;
+      });
+      formArrivalTime.addEventListener("change", () => {
+        if (formArrivalTime.value) {
+          arrivalTime.value = formArrivalTime.value;
         }
       });
     }
